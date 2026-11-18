@@ -221,6 +221,22 @@ class TaskCreateWithAI(APIView):
 
     http_method_names = ['post']
 
+    permission_classes= [JWTAuthentication]
+
+    def get_permissions(self):
+
+        permissions= []
+
+        if self.request.method in ['POST']:
+
+            permissions=[IsCoordinator]
+
+        else:
+
+            permissions=[IsAuthenticated]
+
+        return [permissions() for permissions in permissions]  
+
     def post(self,*args,**kwargs):
 
         uuid=kwargs.get('uuid')
